@@ -87,7 +87,7 @@ fixture describe("assert::are_equal tests",
         assert::are_equal(sequence(1, 2), sequence(1, 2));
     })
 
-    +test("assert::are_equivalent with the same sequence values but different order",[]
+    +test("assert::are_equal with the same sequence values but different order",[]
     {
         auto action = []{ assert::are_equal(sequence(1, 2), sequence(2, 1)); };
         assert::throws(assertion_failure("The sequences are the same length, but are not equal.", "[2] { 1, 2 }", "[2] { 2, 1 }"), action);
