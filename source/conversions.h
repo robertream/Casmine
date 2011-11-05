@@ -2,32 +2,32 @@
 #define CONVERSIONS_H_INCLUDED
 
 #include <string>
-#include <vector>
+#include <list>
 
 namespace casmine
 {
     template <typename T>
-    ::std::vector<T> sequence()
+    ::std::list<T> sequence()
     {
-        return ::std::vector<T>();
+        return ::std::list<T>();
     }
 
     template <typename T>
-    ::std::vector<T> sequence(T value)
+    ::std::list<T> sequence(T value)
     {
-        return ::std::vector<T>({ value });
+        return ::std::list<T>({ value });
     }
 
     template <typename T, typename ...TNext>
-    ::std::vector<T> sequence(T value, TNext... next)
+    ::std::list<T> sequence(T value, TNext... next)
     {
-        return ::std::vector<T>({ value, next... });
+        return ::std::list<T>({ value, next... });
     }
 
     template <typename TContainer>
-    ::std::vector<typename TContainer::value_type> sequence_from(TContainer container)
+    ::std::list<typename TContainer::value_type> sequence_from(TContainer container)
     {
-        ::std::vector<typename TContainer::value_type> result;
+        ::std::list<typename TContainer::value_type> result;
         for (auto i = container.begin(); i != container.end(); i++)
             result.push_back(*i);
         return result;

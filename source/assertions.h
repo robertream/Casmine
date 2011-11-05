@@ -3,7 +3,8 @@
 
 #include <string>
 #include <sstream>
-#include <vector>
+#include <list>
+#include <algorithm>
 
 namespace casmine
 {
@@ -35,7 +36,7 @@ namespace casmine
         ::std::string string(char* value) { return ::std::string(value); }
 
         template <typename T>
-        ::std::string string(::std::vector<T> value)
+        ::std::string string(::std::list<T> value)
         {
             if (value.size() == 0)
                 return "[0] { }";
@@ -54,13 +55,8 @@ namespace casmine
 
     namespace assert
     {
-    //    template <typename T>
-    //    void are_equal(::std::map<T> expected, ::std::map<T> actual)
-    //    {
-    //    }
-
         template <typename T>
-        void are_equal(::std::vector<T> expected, ::std::vector<T> actual)
+        void are_equal(::std::list<T> expected, ::std::list<T> actual)
         {
             if (actual.size() != expected.size())
                 throw assertion_failure("The sequences have different lengths.", to::string(expected), to::string(actual));
@@ -83,6 +79,22 @@ namespace casmine
                 throw assertion_failure("The values are not equal.", to::string(expected), to::string(actual));
         }
 
+        template <typename T>
+        void are_equivalent(::std::list<T> expected, ::std::list<T> actual)
+        {
+            if (actual.size() != expected.size())
+                throw assertion_failure("The sequences have different lengths.", to::string(expected), to::string(actual));
+
+            ::std::list<T> actual_to_compare(actual);
+            for(auto expected_iterator = expected.begin(); expected_iterator != expected.end(); expected_iterator++)
+            {
+                auto actual_matching_value = find(actual_to_compare.begin(), actual_to_compare.end(), *expected_iterator);
+                if (actual_matching_value == actual_to_compare.end())
+                    throw assertion_failure("The sequences are the same length, but are not equivalent.", to::string(expected), to::string(actual));
+                actual_to_compare.erase(actual_matching_value);
+            }
+        }
+
         template <typename TException>
         void throws(::std::function<void (void)> action)
         {
@@ -101,12 +113,6 @@ namespace casmine
             throw assertion_failure("Did not throw an exception.", "An exception of a specific type.", "No exception.");
         }
 
-        template <typename TException>
-        void throws(TException expected, ::std::function<void (void)> action)
-        {
-        }
-
-        template <>
         void throws(assertion_failure expected, ::std::function<void (void)> action)
         {
             try

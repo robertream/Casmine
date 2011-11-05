@@ -82,9 +82,15 @@ fixture describe("assert::are_equal tests",
         assert::are_equal(1, 1);
     })
 
-    +test("assert::are_equal with sequences of the same values",[]
+    +test("assert::are_equal with the same sequence",[]
     {
         assert::are_equal(sequence(1, 2), sequence(1, 2));
+    })
+
+    +test("assert::are_equivalent with the same sequence values but different order",[]
+    {
+        auto action = []{ assert::are_equal(sequence(1, 2), sequence(2, 1)); };
+        assert::throws(assertion_failure("The sequences are the same length, but are not equal.", "[2] { 1, 2 }", "[2] { 2, 1 }"), action);
     })
 
     +test("assert::are_equal with sequences of different lengths", []
@@ -109,6 +115,28 @@ fixture describe("assert::are_equal tests",
     {
         auto action = []{ assert::are_equal(true, false); };
         assert::throws(assertion_failure("The values are not equal.", "true", "false"), action);
+    })
+
+    +test("assert::are_equivalent with the same sequence",[]
+    {
+        assert::are_equivalent(sequence(1, 2), sequence(1, 2));
+    })
+
+    +test("assert::are_equivalent with the same sequence values but different order",[]
+    {
+        assert::are_equivalent(sequence(1, 2, 3), sequence(2, 1, 3));
+    })
+
+    +test("assert::are_equivalent with sequences of different lengths", []
+    {
+        auto action = []{ assert::are_equivalent(sequence(1), sequence<int>()); };
+        assert::throws(assertion_failure("The sequences have different lengths.", "[1] { 1 }", "[0] { }"), action);
+    })
+
+    +test("assert::are_equivalent with sequences of different values", []
+    {
+        auto action = []{ assert::are_equivalent(sequence(1, 2), sequence(3, 4)); };
+        assert::throws(assertion_failure("The sequences are the same length, but are not equivalent.", "[2] { 1, 2 }", "[2] { 3, 4 }"), action);
     })
 
     +test("assert::throws with a specific type", []
