@@ -10,24 +10,54 @@
 
 namespace casmine
 {
-    namespace assert
+	namespace is
+	{
+		template <typename TExpected>
+        constraints::equals_constraint<TExpected> equal_to(TExpected expected)
+        {
+			return constraints::equals_constraint<TExpected>(expected);
+        }
+
+		template <typename TExpected>
+        constraints::equivalent_constraint<TExpected> equivalent_to(TExpected expected)
+        {
+			return constraints::equivalent_constraint<TExpected>(expected);
+        }
+	}
+
+	namespace throws
+	{
+		template <typename TExpected>
+        constraints::throws_constraint<TExpected> type_of()
+        {
+			return constraints::throws_constraint<TExpected>();
+        }
+	}
+
+	namespace assert
     {
 		template <typename TExpected, typename TActual>
-        void are_equal(const TExpected& expected, const TActual& actual)
+        void are_equal(TExpected expected, TActual actual)
         {
-			compare(constraints::equals_constraint<TExpected>(expected), actual);
+			that(actual, is::equal_to(expected));
         }
 
 		template <typename TExpected, typename TActual>
-        void are_equivalent(const TExpected& expected, const TActual& actual)
+        void are_equivalent(TExpected expected, TActual actual)
         {
-			compare(constraints::equivalent_constraint<TExpected>(expected), actual);
+			that(actual, is::equivalent_to(expected));
         }
 
         template <typename TExpected, typename TAction>
         void throws(TAction action)
         {
-			compare(constraints::throws_constraint<TExpected>(), action);
+			that(action, throws::type_of<TExpected>());
+        }
+
+        template <typename TActual, typename TConstraint>
+        void that(TActual actual, TConstraint constraint)
+        {
+			compare(constraint, actual);
         }
 	}
 }
