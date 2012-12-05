@@ -59,10 +59,11 @@ namespace casmine
 						::std::cout << " - passed." << ::std::endl;
 						return failures;
 					}
-					catch(::std::string e)
+					catch(const assertion_failure& failure)
 					{
 						::std::cout << " - failed." << ::std::endl;
-						::std::cout << "  " << e << ::std::endl;
+						::std::cout << "  expected: " + failure.expected << ::std::endl;
+						::std::cout << "  actual:   " + failure.actual   << ::std::endl;
 						return failures + 1;
 					}
 					catch(...)
