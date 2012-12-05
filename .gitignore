@@ -1,4 +1,11 @@
-bin
-obj
 *.depend
 *.layout
+obj/
+bin/
+*.opensdf
+*.sdf
+*.suo
+*.user
+Debug/
+ipch/
+_Resharper*/
