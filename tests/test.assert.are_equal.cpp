@@ -2,8 +2,6 @@
 #include <iostream>
 #include <vector>
 
-#pragma warning( disable : 4290 )
-
 #include "assert.assertion_failure.h"
 #include "../source/assertions.h"
 #include "../source/fixtures.h"
@@ -11,7 +9,7 @@
 
 using namespace casmine;
 
-namespace assertions
+namespace assert_are_equal
 {
 	fixture describe("assert::are_equal tests",
 		test("with values that are not equal", []

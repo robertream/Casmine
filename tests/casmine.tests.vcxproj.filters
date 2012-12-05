@@ -20,6 +20,9 @@
     <ClCompile Include="test.assert.are_equal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.assert.are_equivalent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\assertions.h">

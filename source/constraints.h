@@ -54,7 +54,7 @@ namespace casmine
 			template <typename TResultValue>
 			struct of
 			{
-				typedef typename TResultValue result_value_type;
+				typedef TResultValue result_value_type;
 			};
 
 			template <typename TConstraint>
@@ -123,14 +123,14 @@ namespace casmine
 				if (actual.size() != expected.size())
 					return constraint::failed<TActual>("The sequences have different lengths.", to::string(expected), to::string(actual));
 
-				::std::list<TActual::value_type> actual_to_compare(actual.begin(), actual.end());
-				for_each (expected.begin(), expected.end(), [&] (auto expected_value)
-					{
-						auto actual_matching_value = find(actual_to_compare.begin(), actual_to_compare.end(), expected_value);
-						if (actual_matching_value == actual_to_compare.end())
-							return constraint::failed<TActual>("The sequences are the same length, but are not equivalent.", to::string(expected), to::string(actual));
-						actual_to_compare.erase(actual_matching_value);
-					});
+				::std::list<typename TActual::value_type> actual_to_compare(actual.begin(), actual.end());
+				for (auto expected_iterator = expected.begin(); expected_iterator != expected.end(); expected_iterator++)
+				{
+					auto actual_matching_value = ::std::find(actual_to_compare.begin(), actual_to_compare.end(), *expected_iterator);
+					if (actual_matching_value == actual_to_compare.end())
+						return constraint::failed<TActual>("The sequences are the same length, but have different values.", to::string(expected), to::string(actual));
+					actual_to_compare.erase(actual_matching_value);
+				};
 
 				return constraint::succeeded(actual);
 			}
@@ -169,6 +169,8 @@ namespace casmine
 		template <typename TConstraintA, typename TConstraintB>
 		struct bind_constraint<TConstraintA, TConstraintB, true> : constraint::from<TConstraintB>
 		{
+		    typedef typename constraint::from<TConstraintB>::result_value_type result_value_type;
+
 			bind_constraint(TConstraintA A, TConstraintB B)
 				: A(A), B(B) { }
 

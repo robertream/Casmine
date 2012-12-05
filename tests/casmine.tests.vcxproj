@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="test.assert.are_equal.cpp" />
+    <ClCompile Include="test.assert.are_equivalent.cpp" />
     <ClCompile Include="test.assert.throws.cpp" />
   </ItemGroup>
   <ItemGroup>

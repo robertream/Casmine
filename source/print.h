@@ -7,6 +7,12 @@
 
 namespace casmine
 {
+	namespace print
+	{
+		template <typename T, bool CanIterate = traits::has_const_iterator<T>::value>
+		struct string;
+	}
+
     namespace to
     {
 		template <typename T>
@@ -15,9 +21,6 @@ namespace casmine
 
 	namespace print
 	{
-		template <typename T, bool CanIterate = traits::has_const_iterator<T>::value>
-		struct string;
-
         template <typename T>
 		struct string<T, false> : ::std::string
 		{

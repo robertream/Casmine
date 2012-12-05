@@ -6,7 +6,7 @@
 
 namespace casmine
 {
-	struct assertion_failure : ::std::exception
+	struct assertion_failure
     {
 		assertion_failure() { }
 
