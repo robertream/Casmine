@@ -93,14 +93,14 @@ namespace casmine
 			constraint::result<TActual> operator()(const TActual& actual)
 			{
 				if (actual.size() != expected.size())
-					return constraint::failed<TActual>("The sequences have different lengths.", to::string(expected), to::string(actual));
+					return constraint::failed<TActual>("The collections have different lengths.", to::string(expected), to::string(actual));
 
 				auto actual_iterator = actual.begin();
 				auto expected_iterator = expected.begin();
 				while(actual_iterator != actual.end() && expected_iterator != expected.end())
 				{
 					if (*expected_iterator != *actual_iterator)
-						return constraint::failed<TActual>("The sequences are the same length, but are not equal.", to::string(expected), to::string(actual));
+						return constraint::failed<TActual>("The collections are the same length, but are not equal.", to::string(expected), to::string(actual));
 					actual_iterator++;
 					expected_iterator++;
 				}
@@ -121,14 +121,14 @@ namespace casmine
 			constraint::result<TActual> operator()(const TActual& actual)
 			{
 				if (actual.size() != expected.size())
-					return constraint::failed<TActual>("The sequences have different lengths.", to::string(expected), to::string(actual));
+					return constraint::failed<TActual>("The collections have different lengths.", to::string(expected), to::string(actual));
 
 				::std::list<typename TActual::value_type> actual_to_compare(actual.begin(), actual.end());
 				for (auto expected_iterator = expected.begin(); expected_iterator != expected.end(); expected_iterator++)
 				{
 					auto actual_matching_value = ::std::find(actual_to_compare.begin(), actual_to_compare.end(), *expected_iterator);
 					if (actual_matching_value == actual_to_compare.end())
-						return constraint::failed<TActual>("The sequences are the same length, but have different values.", to::string(expected), to::string(actual));
+						return constraint::failed<TActual>("The collections are the same length, but have different values.", to::string(expected), to::string(actual));
 					actual_to_compare.erase(actual_matching_value);
 				};
 

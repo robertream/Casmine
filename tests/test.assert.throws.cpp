@@ -11,20 +11,20 @@ using namespace casmine;
 namespace assert_throws
 {
 	fixture describe("assert::throws tests",
-		test("with a specific type", []
+		test("exact type of exception", []
 		{
 			auto throws = [] { throw 1; };
 			assert::throws<int>(throws);
 		})
 		+
-		test("with no exception", []
+		test("no exception", []
 		{
 			auto no_throws = [] { };
 			auto action = [=]{ assert::throws<int>(no_throws); };
 			assert::throws(assertion_failure("Did not throw an exception.", "exception of type: int", "no exception"), action);
 		})
 		+
-		test("with an exception of a different type", []
+		test("an exception of a different type", []
 		{
 			auto throws = [] { throw ::std::string("different type"); };
 			auto action = [=]{ assert::throws<int>(throws); };
