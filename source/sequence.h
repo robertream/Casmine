@@ -39,7 +39,7 @@ namespace casmine
         return result;
     }
 
-	//template <typename T, typename ...TNext>
+    //template <typename T, typename ...TNext>
     //::std::list<T> sequence(T value, TNext... next)
     //{
     //    return ::std::list<T>({ value, next... });

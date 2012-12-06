@@ -9,11 +9,11 @@ using namespace casmine;
 
 fixture describe("simple fixture",
     test("test", []
-		{
-		})
-	);
+        {
+        })
+    );
 
 int main()
 {
-	return module::run();
+    return module::run();
 }
