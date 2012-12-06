@@ -67,11 +67,8 @@ namespace casmine
 
 	namespace constraints
 	{
-		template <typename TExpected, bool CanIterate = traits::has_const_iterator<TExpected>::value>
-		struct equals_constraint;
-
-		template <typename TExpected>
-		struct equals_constraint<TExpected, false> : constraint::of<TExpected>
+		template <typename TExpected, typename Enable = void>
+		struct equals_constraint : constraint::of<TExpected>
 		{
 			TExpected expected;
 			equals_constraint(const TExpected& expected) : expected(expected) { }
@@ -85,7 +82,7 @@ namespace casmine
 		};
 
 		template <typename TExpected>
-		struct equals_constraint<TExpected, true> : constraint::of<TExpected>
+		struct equals_constraint<TExpected, typename ::std::enable_if<traits::has_const_iterator<TExpected>::value>::type> : constraint::of<TExpected>
 		{
 			TExpected expected;
 			equals_constraint(const TExpected& expected) : expected(expected) { }
@@ -109,11 +106,11 @@ namespace casmine
 			}
 		};
 
-		template <typename TExpected, bool CanIterate = traits::has_const_iterator<TExpected>::value>
+		template <typename TExpected, typename Enable = void>
 		struct equivalent_constraint;
 
         template <typename TExpected>
-		struct equivalent_constraint<TExpected, true> : constraint::of<TExpected>
+		struct equivalent_constraint<TExpected, typename ::std::enable_if<traits::has_const_iterator<TExpected>::value>::type> : constraint::of<TExpected>
 		{
 			TExpected expected;
 			equivalent_constraint(const TExpected& expected) : expected(expected) { }
@@ -163,11 +160,11 @@ namespace casmine
 			}
 		};
 
-		template <typename TConstraintA, typename TConstraintB, bool HasResultValue = traits::has_result_value<TConstraintB>::value>
+		template <typename TConstraintA, typename TConstraintB, typename Enabled = void>
 		struct bind_constraint;
-
+		
 		template <typename TConstraintA, typename TConstraintB>
-		struct bind_constraint<TConstraintA, TConstraintB, true> : constraint::from<TConstraintB>
+		struct bind_constraint<TConstraintA, TConstraintB, typename ::std::enable_if<traits::has_result_value<TConstraintB>::value>::type> : constraint::from<TConstraintB>
 		{
 		    typedef typename constraint::from<TConstraintB>::result_value_type result_value_type;
 

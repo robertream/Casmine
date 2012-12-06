@@ -2,19 +2,21 @@
 #include <iostream>
 #include <vector>
 
-#include "assert.assertion_failure.h"
+#include "constraints.assertion_failure.h"
 #include "../source/assertions.h"
 #include "../source/fixtures.h"
 #include "../source/sequence.h"
 
 using namespace casmine;
+using namespace ::std;
+
 
 namespace assert_are_equivalent
 {
 	fixture describe("assert::are_equivalent tests",
 		test("collections of different types", []
 		{
-			assert::are_equivalent(::std::vector<int>(), ::std::list<int>());
+			assert::are_equivalent(vector<int>(), list<int>());
 		})
 		+
 		test("collections of the same values",[]

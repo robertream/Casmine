@@ -1,6 +1,8 @@
 #ifndef TRAITS_H_INCLUDED
 #define TRAITS_H_INCLUDED
 
+#include <type_traits>
+
 namespace casmine
 {
 	namespace traits

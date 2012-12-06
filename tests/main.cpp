@@ -7,7 +7,7 @@
 
 using namespace casmine;
 
-fixture describe("more than one fixture in a module",
+fixture describe("simple fixture",
     test("test", []
 		{
 		})

@@ -8,7 +8,7 @@ namespace casmine
 	namespace constraints
 	{
         template <>
-		struct equals_constraint<assertion_failure, false> : constraint::of<assertion_failure>
+		struct equals_constraint<assertion_failure> : constraint::of<assertion_failure>
 		{
 			assertion_failure expected;
 			equals_constraint(const assertion_failure& expected) : expected(expected) { }
@@ -25,15 +25,6 @@ namespace casmine
 					return constraint::succeeded(actual);
 			}
 		};
-	}
-
-	namespace assert
-	{
-        template <typename TException>
-		void throws(const TException& expected, ::std::function<void (void)> action)
-		{
-			that(action, throws::type_of<TException>() && is::equal_to(expected));
-		}
 	}
 }
 

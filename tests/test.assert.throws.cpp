@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-#include "assert.assertion_failure.h"
+#include "constraints.assertion_failure.h"
 #include "../source/assertions.h"
 #include "../source/fixtures.h"
 

@@ -2,11 +2,12 @@
 #include <iostream>
 #include <vector>
 
-#include "assert.assertion_failure.h"
+#include "constraints.assertion_failure.h"
 #include "../source/assertions.h"
 #include "../source/fixtures.h"
 #include "../source/sequence.h"
 
+using namespace std;
 using namespace casmine;
 
 namespace assert_are_equal
@@ -25,7 +26,7 @@ namespace assert_are_equal
 		+
 		test("collections of different types", []
 		{
-			assert::are_equal(::std::vector<int>(), ::std::list<int>());
+			assert::are_equal(vector<int>(), list<int>());
 		})
 		+
 		test("collections of the same values",[]

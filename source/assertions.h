@@ -54,7 +54,13 @@ namespace casmine
 			that(action, throws::type_of<TExpected>());
         }
 
-        template <typename TActual, typename TConstraint>
+        template <typename TException, typename TAction>
+		void throws(TException expected, TAction action)
+		{
+			that(action, throws::type_of<TException>() && is::equal_to(expected));
+		}
+
+		template <typename TActual, typename TConstraint>
         void that(TActual actual, TConstraint constraint)
         {
 			compare(constraint, actual);
