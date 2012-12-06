@@ -33,9 +33,19 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="..\source\assertion_failure.h" />
 		<Unit filename="..\source\assertions.h" />
+		<Unit filename="..\source\constraints.h" />
 		<Unit filename="..\source\conversions.h" />
+		<Unit filename="..\source\fixtures.h" />
+		<Unit filename="..\source\print.h" />
+		<Unit filename="..\source\sequence.h" />
+		<Unit filename="..\source\traits.h" />
+		<Unit filename="assert.assertion_failure.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="test.assert.are_equal.cpp" />
+		<Unit filename="test.assert.are_equivalent.cpp" />
+		<Unit filename="test.assert.throws.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
