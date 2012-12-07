@@ -1,11 +1,4 @@
-#include <functional>
-#include <iostream>
-#include <vector>
-
-#include "../source/assertions.h"
-#include "../source/fixtures.h"
-
-using namespace casmine;
+#include "../source/casmine.h"
 
 fixture describe("simple fixture",
     test("test", []

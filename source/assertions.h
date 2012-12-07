@@ -1,10 +1,6 @@
 #ifndef ASSERTIONS_H_INCLUDED
 #define ASSERTIONS_H_INCLUDED
 
-#include <list>
-#include <algorithm>
-#include <typeinfo>
-
 #include "assertion_failure.h"
 #include "constraints.h"
 

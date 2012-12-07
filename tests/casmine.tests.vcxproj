@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClInclude Include="..\source\assertions.h" />
     <ClInclude Include="..\source\assertion_failure.h" />
+    <ClInclude Include="..\source\casmine.h" />
     <ClInclude Include="..\source\constraints.h" />
     <ClInclude Include="..\source\print.h" />
     <ClInclude Include="..\source\sequence.h" />

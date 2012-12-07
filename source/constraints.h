@@ -2,7 +2,7 @@
 #define CONSTRAINTS_H_INCLUDED
 
 #include <string>
-#include <exception>
+#include <typeinfo>
 
 #include "traits.h"
 #include "print.h"
@@ -162,7 +162,7 @@ namespace casmine
 
         template <typename TConstraintA, typename TConstraintB, typename Enabled = void>
         struct bind_constraint;
-        
+
         template <typename TConstraintA, typename TConstraintB>
         struct bind_constraint<TConstraintA, TConstraintB, typename ::std::enable_if<traits::has_result_value<TConstraintB>::value>::type> : constraint::from<TConstraintB>
         {

@@ -49,5 +49,8 @@
     <ClInclude Include="constraints.assertion_failure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\casmine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

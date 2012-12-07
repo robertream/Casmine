@@ -1,14 +1,8 @@
-#include <functional>
-#include <iostream>
-#include <vector>
-
-#include "constraints.assertion_failure.h"
-#include "../source/assertions.h"
-#include "../source/fixtures.h"
+#include "../source/casmine.h"
 #include "../source/sequence.h"
+#include "constraints.assertion_failure.h"
 
 using namespace std;
-using namespace casmine;
 
 namespace assert_are_equal
 {
