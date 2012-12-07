@@ -41,7 +41,7 @@
 		<Unit filename="..\source\print.h" />
 		<Unit filename="..\source\sequence.h" />
 		<Unit filename="..\source\traits.h" />
-		<Unit filename="assert.assertion_failure.h" />
+		<Unit filename="constraints.assertion_failure.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="test.assert.are_equal.cpp" />
 		<Unit filename="test.assert.are_equivalent.cpp" />
