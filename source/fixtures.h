@@ -13,7 +13,7 @@ namespace casmine
         ::std::vector<fixture*> fixtures;
         static void add(fixture* f) { instance().fixtures.push_back(f); }
         static int run() { return instance().run_all(); }
-        
+
         private:
             module() { }
             static module& instance() { static module instance; return instance; }
@@ -50,7 +50,7 @@ namespace casmine
         int run()
         {
             ::std::cout << "* " << description << ::std::endl;
-            return ::std::accumulate(tests.begin(), tests.end(), 0, [] (int failures, test& current_test) -> int
+            return ::std::accumulate(tests.begin(), tests.end(), 0, [] (int failures, const test& current_test) -> int
                 {
                     try
                     {

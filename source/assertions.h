@@ -36,6 +36,12 @@ namespace casmine
 
     namespace assert
     {
+        template <typename TActual, typename TConstraint>
+        void that(TActual actual, TConstraint constraint)
+        {
+            compare(constraint, actual);
+        }
+
         template <typename TExpected, typename TActual>
         void are_equal(TExpected expected, TActual actual)
         {
@@ -58,12 +64,6 @@ namespace casmine
         void throws(TException expected, TAction action)
         {
             that(action, throws::type_of<TException>() && is::equal_to(expected));
-        }
-
-        template <typename TActual, typename TConstraint>
-        void that(TActual actual, TConstraint constraint)
-        {
-            compare(constraint, actual);
         }
     }
 }
