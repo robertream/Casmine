@@ -73,7 +73,7 @@ namespace casmine
             TExpected expected;
             equals_constraint(const TExpected& expected) : expected(expected) { }
             template<typename TActual>
-            constraint::result<TActual> operator()(const TActual& actual)
+            constraint::result<TActual> operator()(const TActual& actual) const
             {
                 return expected == actual
                     ? constraint::succeeded(actual)
@@ -87,7 +87,7 @@ namespace casmine
             TExpected expected;
             equals_constraint(const TExpected& expected) : expected(expected) { }
             template<typename TActual>
-            constraint::result<TActual> operator()(const TActual& actual)
+            constraint::result<TActual> operator()(const TActual& actual) const
             {
                 if (actual.size() != expected.size())
                     return constraint::failed<TActual>("The collections have different lengths.", to::string(expected), to::string(actual));
@@ -115,7 +115,7 @@ namespace casmine
             TExpected expected;
             equivalent_constraint(const TExpected& expected) : expected(expected) { }
             template<typename TActual>
-            constraint::result<TActual> operator()(const TActual& actual)
+            constraint::result<TActual> operator()(const TActual& actual) const
             {
                 if (actual.size() != expected.size())
                     return constraint::failed<TActual>("The collections have different lengths.", to::string(expected), to::string(actual));
@@ -137,7 +137,7 @@ namespace casmine
         struct throws_constraint : constraint::of<TExpected>
         {
             template <typename TAction>
-            constraint::result<TExpected> operator()(const TAction& action)
+            constraint::result<TExpected> operator()(const TAction& action) const
             {
                 auto expected = "exception of type: " + ::std::string(typeid(TExpected).name());
                 try
@@ -166,8 +166,6 @@ namespace casmine
         template <typename TConstraintA, typename TConstraintB>
         struct bind_constraint<TConstraintA, TConstraintB, typename ::std::enable_if<traits::has_result_value<TConstraintB>::value>::type> : constraint::from<TConstraintB>
         {
-            typedef typename constraint::from<TConstraintB>::result_value_type result_value_type;
-
             bind_constraint(TConstraintA A, TConstraintB B)
                 : A(A), B(B) { }
 
@@ -175,7 +173,7 @@ namespace casmine
             TConstraintB B;
 
             template<typename TActual>
-            constraint::result<result_value_type> operator()(TActual actual)
+            constraint::result<result_value_type> operator()(TActual actual) const
             {
                 auto result = A(actual);
                 return result.is_failure

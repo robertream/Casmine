@@ -1,6 +1,6 @@
 #include "../source/casmine.h"
 #include "../source/sequence.h"
-#include "constraints.assertion_failure.h"
+#include "constraints.assertion.failure.h"
 
 using namespace std;
 
@@ -25,13 +25,13 @@ namespace assert_are_equivalent
         test("collections of different lengths", []
         {
             auto action = []{ assert::are_equivalent(sequence(1), sequence(1, 1)); };
-            assert::throws(assertion_failure("The collections have different lengths.", "[1] { 1 }", "[2] { 1, 1 }"), action);
+            assert::throws(assertion::failure("The collections have different lengths.", "[1] { 1 }", "[2] { 1, 1 }"), action);
         })
         +
         test("collections of different values", []
         {
             auto action = []{ assert::are_equivalent(sequence(1, 2), sequence(3, 4)); };
-            assert::throws(assertion_failure("The collections are the same length, but have different values.", "[2] { 1, 2 }", "[2] { 3, 4 }"), action);
+            assert::throws(assertion::failure("The collections are the same length, but have different values.", "[2] { 1, 2 }", "[2] { 3, 4 }"), action);
         })
     );
 }

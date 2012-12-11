@@ -77,18 +77,19 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="test.assert.are_equal.cpp" />
     <ClCompile Include="test.assert.are_equivalent.cpp" />
+    <ClCompile Include="test.assert.that.cpp" />
     <ClCompile Include="test.assert.throws.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\assertions.h" />
-    <ClInclude Include="..\source\assertion_failure.h" />
+    <ClInclude Include="..\source\assertion.h" />
     <ClInclude Include="..\source\casmine.h" />
     <ClInclude Include="..\source\constraints.h" />
     <ClInclude Include="..\source\print.h" />
     <ClInclude Include="..\source\sequence.h" />
     <ClInclude Include="..\source\fixtures.h" />
     <ClInclude Include="..\source\traits.h" />
-    <ClInclude Include="constraints.assertion_failure.h" />
+    <ClInclude Include="constraints.assertion.failure.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

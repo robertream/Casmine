@@ -1,6 +1,6 @@
 #include "../source/casmine.h"
 #include "../source/sequence.h"
-#include "constraints.assertion_failure.h"
+#include "constraints.assertion.failure.h"
 
 using namespace std;
 
@@ -10,7 +10,7 @@ namespace assert_are_equal
         test("values that are not equal", []
         {
             auto action = []{ assert::are_equal(1, 2); };
-            assert::throws(assertion_failure("The values are not equal.", "1", "2"), action);
+            assert::throws(assertion::failure("The values are not equal.", "1", "2"), action);
         })
         +
         test("values that are equal", []
@@ -31,13 +31,13 @@ namespace assert_are_equal
         test("collections of different lengths", []
         {
             auto action = []{ assert::are_equal(sequence(1), sequence<int>()); };
-            assert::throws(assertion_failure("The collections have different lengths.", "[1] { 1 }", "[0] { }"), action);
+            assert::throws(assertion::failure("The collections have different lengths.", "[1] { 1 }", "[0] { }"), action);
         })
         +
         test("collections of different values", []
         {
             auto action = []{ assert::are_equal(sequence(1, 2), sequence(3, 4)); };
-            assert::throws(assertion_failure("The collections are the same length, but are not equal.", "[2] { 1, 2 }", "[2] { 3, 4 }"), action);
+            assert::throws(assertion::failure("The collections are the same length, but are not equal.", "[2] { 1, 2 }", "[2] { 3, 4 }"), action);
         })
         +
         test("the same bool values", []
@@ -49,7 +49,7 @@ namespace assert_are_equal
         test("different boolean values", []
         {
             auto action = []{ assert::are_equal(true, false); };
-            assert::throws(assertion_failure("The values are not equal.", "true", "false"), action);
+            assert::throws(assertion::failure("The values are not equal.", "true", "false"), action);
         })
     );
 }

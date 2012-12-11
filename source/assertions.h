@@ -1,8 +1,9 @@
 #ifndef ASSERTIONS_H_INCLUDED
 #define ASSERTIONS_H_INCLUDED
 
-#include "assertion_failure.h"
+#include "assertion.h"
 #include "constraints.h"
+#include <functional>
 
 namespace casmine
 {
@@ -35,7 +36,13 @@ namespace casmine
         template <typename TActual, typename TConstraint>
         void that(TActual actual, TConstraint constraint)
         {
-            compare(constraint, actual);
+            return assertion::comparison<TActual, TConstraint>(actual, constraint)("");
+        }
+
+        template <typename TActual>
+        assertion::actual<TActual> that(TActual actual)
+        {
+            return assertion::actual<TActual>(actual);
         }
 
         template <typename TExpected, typename TActual>
@@ -61,6 +68,25 @@ namespace casmine
         {
             that(action, throws::type_of<TException>() && is::equal_to(expected));
         }
+    }
+
+    template <typename TAssertion>
+    const char*  operator -(const char* message, TAssertion assertion)
+    {
+        assertion(message);
+        return message;
+    }
+    
+    template <typename TActual, typename TExpected>
+    assertion::comparison<TActual, typename constraints::equals_constraint<TExpected>> operator == (assertion::actual<TActual> actual, TExpected expected)
+    {
+        return actual(is::equal_to(expected));
+    }
+
+    template <typename TActual>
+    assertion::actual<TActual> check(TActual actual)
+    {
+        return assert::that(actual);
     }
 }
 
