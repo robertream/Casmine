@@ -7,22 +7,17 @@
 
 namespace casmine
 {
-    namespace print
-    {
-        template <typename T, bool CanIterate = traits::has_const_iterator<T>::value>
-        struct string;
-    }
-
     namespace to
     {
         template <typename T>
-        ::std::string string(const T& value) { return print::string<T>(value); }
+        ::std::string string(const T& value);
     }
 
     namespace print
     {
-        template <typename T>
-        struct string<T, false> : ::std::string
+
+        template <typename T, typename Enable = void>
+        struct string : ::std::string
         {
             string(T value)
             {
@@ -33,19 +28,19 @@ namespace casmine
         };
 
         template <>
-        struct string<bool, false> : ::std::string
+        struct string<bool, void> : ::std::string
         {
             string(bool value) { this->assign(value == true ? "true" : "false"); }
         };
 
         template <>
-        struct string<char*, false> : ::std::string
+        struct string<char*, void> : ::std::string
         {
             string(char* value) { this->assign(value); }
         };
 
         template <typename T>
-        struct string<T, true> : ::std::string
+        struct string<T, typename ::std::enable_if<traits::has_const_iterator<T>::value>::type> : ::std::string
         {
             string(const T& value)
             {
@@ -67,6 +62,12 @@ namespace casmine
                 this->assign(string_value.str());
             }
         };
+    }
+
+    namespace to
+    {
+        template <typename T>
+        ::std::string string(const T& value) { return print::string<T>(value); }
     }
 }
 
