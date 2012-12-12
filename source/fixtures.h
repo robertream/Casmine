@@ -56,7 +56,7 @@ namespace casmine
         int run()
         {
             ::std::cout << "* " << description << ::std::endl;
-            return ::std::accumulate(tests.begin(), tests.end(), 0, [] (int failures, const test& current_test) -> int
+            return ::std::accumulate(tests.begin(), tests.end(), 0, [] (int failures, test current_test) -> int
                 {
                     try
                     {
@@ -65,7 +65,7 @@ namespace casmine
                         ::std::cout << " - passed." << ::std::endl;
                         return failures;
                     }
-                    catch(const assertion::failure& failure)
+                    catch(assertion::failure failure)
                     {
                         ::std::cout << " - failed." << ::std::endl;
                         if (!failure.message.empty())
@@ -94,7 +94,7 @@ namespace casmine
         }
     };
 
-    inline ::std::vector<test> operator +(const test& first_test, const test& second_test)
+    inline ::std::vector<test> operator +(test first_test, test second_test)
     {
         ::std::vector<test> tests;
         tests.push_back(first_test);
@@ -102,7 +102,7 @@ namespace casmine
         return tests;
     }
 
-    inline ::std::vector<test> operator +(::std::vector<test> tests, const test& test_to_add)
+    inline ::std::vector<test> operator +(::std::vector<test> tests, test test_to_add)
     {
         tests.push_back(test_to_add);
         return tests;

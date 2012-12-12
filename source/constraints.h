@@ -17,7 +17,7 @@ namespace casmine
             {
                 failure() { }
 
-                failure(const ::std::string& description, const ::std::string& expected, const ::std::string& actual)
+                failure(::std::string description, ::std::string expected, ::std::string actual)
                     : description(description), expected(expected), actual(actual) { }
 
                 ::std::string description;
@@ -28,13 +28,13 @@ namespace casmine
             template <typename TValue>
             struct result
             {
-                result(const TValue& value)
+                result(TValue value)
                     : is_failure(false), value(value) { }
 
-                result(const failure& error)
+                result(failure error)
                     : is_failure(true), error(error) { }
 
-                result(const ::std::string& description, const ::std::string& expected, const ::std::string& actual)
+                result(::std::string description, ::std::string expected, ::std::string actual)
                     : is_failure(true), error(description, expected, actual) { }
 
                 bool is_failure;
@@ -43,13 +43,13 @@ namespace casmine
             };
 
             template <typename TValue>
-            static result<TValue> succeeded(const TValue& value) { return result<TValue>(value); }
+            static result<TValue> succeeded(TValue value) { return result<TValue>(value); }
             template <typename TValue>
-            static result<TValue> failed(const failure& error) { return result<TValue>(error); }
+            static result<TValue> failed(failure error) { return result<TValue>(error); }
             template <typename TValue>
-            static result<TValue> failed(const ::std::string description, ::std::string expected, ::std::string actual) { return result<TValue>(description, expected, actual); }
+            static result<TValue> failed(::std::string description, ::std::string expected, ::std::string actual) { return result<TValue>(description, expected, actual); }
             template <typename TValue>
-            static result<TValue> failed(const result<TValue>& result) { return result; }
+            static result<TValue> failed(result<TValue> result) { return result; }
 
             template <typename TResultValue>
             struct of
@@ -71,9 +71,9 @@ namespace casmine
         struct equals_constraint : constraint::of<TExpected>
         {
             TExpected expected;
-            equals_constraint(const TExpected& expected) : expected(expected) { }
+            equals_constraint(TExpected expected) : expected(expected) { }
             template<typename TActual>
-            constraint::result<TActual> operator()(const TActual& actual) const
+            constraint::result<TActual> operator()(TActual actual) const
             {
                 return expected == actual
                     ? constraint::succeeded(actual)
@@ -85,9 +85,9 @@ namespace casmine
         struct equals_constraint<TExpected, typename ::std::enable_if<traits::has_const_iterator<TExpected>::value>::type> : constraint::of<TExpected>
         {
             TExpected expected;
-            equals_constraint(const TExpected& expected) : expected(expected) { }
+            equals_constraint(TExpected expected) : expected(expected) { }
             template<typename TActual>
-            constraint::result<TActual> operator()(const TActual& actual) const
+            constraint::result<TActual> operator()(TActual actual) const
             {
                 if (actual.size() != expected.size())
                     return constraint::failed<TActual>("The collections have different lengths.", to::string(expected), to::string(actual));
@@ -113,9 +113,9 @@ namespace casmine
         struct equivalent_constraint<TExpected, typename ::std::enable_if<traits::has_const_iterator<TExpected>::value>::type> : constraint::of<TExpected>
         {
             TExpected expected;
-            equivalent_constraint(const TExpected& expected) : expected(expected) { }
+            equivalent_constraint(TExpected expected) : expected(expected) { }
             template<typename TActual>
-            constraint::result<TActual> operator()(const TActual& actual) const
+            constraint::result<TActual> operator()(TActual actual) const
             {
                 if (actual.size() != expected.size())
                     return constraint::failed<TActual>("The collections have different lengths.", to::string(expected), to::string(actual));
@@ -137,18 +137,18 @@ namespace casmine
         struct throws_constraint : constraint::of<TExpected>
         {
             template <typename TAction>
-            constraint::result<TExpected> operator()(const TAction& action) const
+            constraint::result<TExpected> operator()(TAction action) const
             {
                 auto expected = "exception of type: " + ::std::string(typeid(TExpected).name());
                 try
                 {
                     action();
                 }
-                catch(const TExpected& actual)
+                catch(TExpected actual)
                 {
                     return constraint::succeeded(actual);
                 }
-                catch(const ::std::exception& actual)
+                catch(::std::exception actual)
                 {
                     return constraint::failed<TExpected>("An exception of an un-expected type was thrown.", expected, "exception of type: " + ::std::string(typeid(actual).name()) + " = " + actual.what());
                 }

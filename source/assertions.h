@@ -36,13 +36,13 @@ namespace casmine
         template <typename TActual, typename TConstraint>
         void that(TActual actual, TConstraint constraint)
         {
-            return assertion::comparison<TActual, TConstraint>(actual, constraint)("");
+            return assertion::comparison<TActual, TConstraint>("", 0, actual, constraint)("");
         }
 
         template <typename TActual>
         assertion::actual<TActual> that(TActual actual)
         {
-            return assertion::actual<TActual>(actual);
+            return assertion::actual<TActual>("", 0, actual);
         }
 
         template <typename TExpected, typename TActual>

@@ -11,9 +11,9 @@ namespace casmine
         struct equals_constraint<assertion::failure> : constraint::of<assertion::failure>
         {
             assertion::failure expected;
-            equals_constraint(const assertion::failure& expected) : expected(expected) { }
+            equals_constraint(assertion::failure expected) : expected(expected) { }
 
-            constraint::result<assertion::failure> operator()(const assertion::failure& actual) const
+            constraint::result<assertion::failure> operator()(assertion::failure actual) const
             {
                 if (actual.message != expected.message)
                     return constraint::failed<assertion::failure>("The message for the assertion::failure was different.", "\"" + expected.message + "\"", "\"" + actual.message + "\"");

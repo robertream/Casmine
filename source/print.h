@@ -10,7 +10,7 @@ namespace casmine
     namespace to
     {
         template <typename T>
-        ::std::string string(const T& value);
+        ::std::string string(T value);
     }
 
     namespace print
@@ -42,7 +42,7 @@ namespace casmine
         template <typename T>
         struct string<T, typename ::std::enable_if<traits::has_const_iterator<T>::value>::type> : ::std::string
         {
-            string(const T& value)
+            string(T value)
             {
                 ::std::stringstream string_value;
                 if (value.size() == 0)
@@ -67,7 +67,7 @@ namespace casmine
     namespace to
     {
         template <typename T>
-        ::std::string string(const T& value) { return print::string<T>(value); }
+        ::std::string string(T value) { return print::string<T>(value); }
     }
 }
 

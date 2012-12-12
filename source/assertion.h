@@ -12,12 +12,14 @@ namespace casmine
         {
             failure() { }
 
-            failure(const ::std::string& description, const ::std::string& expected, const ::std::string& actual)
+            failure(::std::string description, ::std::string expected, ::std::string actual)
                 : message(""), description(description), expected(expected), actual(actual) { }
+                        
+            failure(::std::string file, int line, ::std::string message, ::std::string description, ::std::string expected, ::std::string actual)
+                : file(file), line(line), message(message), description(description), expected(expected), actual(actual) { }
 
-            failure(const ::std::string& message, const ::std::string& description, const ::std::string& expected, const ::std::string& actual)
-                : message(message), description(description), expected(expected), actual(actual) { }
-
+            ::std::string file;
+            int line;
             ::std::string message;
             ::std::string description;
             ::std::string expected;
@@ -29,7 +31,11 @@ namespace casmine
         {
             comparison(TActual actual, TConstraint constraint)
                 : actual(actual), constraint(constraint) { }
-
+            comparison(::std::string file, int line, TActual actual, TConstraint constraint)
+                : file(file), line(line), actual(actual), constraint(constraint) { }
+            
+            ::std::string file;
+            int line;
             TActual actual;
             TConstraint constraint;
 
@@ -37,22 +43,24 @@ namespace casmine
             {
                 auto result = constraint(actual);
                 if (result.is_failure)
-                    throw assertion::failure(message, result.error.description, result.error.expected, result.error.actual);
+                    throw assertion::failure(file, line, message, result.error.description, result.error.expected, result.error.actual);
             }
         };
 
         template<typename TActual>
         struct actual
         {
-            actual(TActual value)
-                : value(value) { }
-
+            actual(::std::string file, int line, TActual value)
+                : file(file), line(line), value(value) { }
+            
+            ::std::string file;
+            int line;
             TActual value;
 
             template<typename TConstraint>
             comparison<TActual, TConstraint> operator()(TConstraint constraint) const
             {
-                return comparison<TActual, TConstraint>(value, constraint);
+                return comparison<TActual, TConstraint>(file, line, value, constraint);
             }
         };
     }
