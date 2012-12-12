@@ -12,7 +12,13 @@ namespace casmine
     {
         ::std::vector<fixture*> fixtures;
         static void add(fixture* f) { instance().fixtures.push_back(f); }
-        static int run() { return instance().run_all(); }
+        static int run(int argc, char *argv[])
+        {
+            int errors = instance().run_all();
+            if (argc > 1)
+                std::cin.get();
+            return errors;
+        }
 
         private:
             module() { }

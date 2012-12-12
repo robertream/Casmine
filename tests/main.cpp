@@ -6,7 +6,7 @@ fixture describe("simple fixture",
         })
     );
 
-int main()
+int main(int argc, char *argv[])
 {
-    return module::run();
+    return module::run(argc, argv);
 }
