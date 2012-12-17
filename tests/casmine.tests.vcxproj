@@ -85,6 +85,7 @@
     <ClInclude Include="..\source\assertion.h" />
     <ClInclude Include="..\source\casmine.h" />
     <ClInclude Include="..\source\constraints.h" />
+    <ClInclude Include="..\source\output.h" />
     <ClInclude Include="..\source\print.h" />
     <ClInclude Include="..\source\sequence.h" />
     <ClInclude Include="..\source\fixtures.h" />

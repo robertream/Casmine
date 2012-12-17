@@ -1,8 +1,12 @@
+#ifndef FIXTURES_H_INCLUDED
+#define FIXTURES_H_INCLUDED
+
 #include <algorithm>
 #include <functional>
-#include <iostream>
 #include <vector>
 #include <numeric>
+
+#include "assertion.h"
 
 namespace casmine
 {
@@ -12,18 +16,22 @@ namespace casmine
     {
         ::std::vector<fixture*> fixtures;
         static void add(fixture* f) { instance().fixtures.push_back(f); }
-        static int run(int argc, char *argv[])
+        
+        template<typename TOutput>
+        static int run(int argc, char *argv[], TOutput output = TOutput())
         {
-            int errors = instance().run_all();
+            int errors = instance().run_all(output);
             if (argc > 1)
                 std::cin.get();
             return errors;
         }
 
-        private:
+    private:
             module() { }
             static module& instance() { static module instance; return instance; }
-            int run_all();
+            
+            template<typename TOutput>
+            int run_all(TOutput output);
     };
 
     struct test
@@ -53,41 +61,26 @@ namespace casmine
             module::add(this);
         }
 
-        int run()
+        template<typename TOutput>
+        int run(TOutput output)
         {
-            ::std::cout << "* " << description << ::std::endl;
-            return ::std::accumulate(tests.begin(), tests.end(), 0, [] (int failures, test current_test) -> int
+            return ::std::accumulate(tests.begin(), tests.end(), 0, [&] (int failures, test current_test) -> int
                 {
                     try
                     {
-                        ::std::cout << " - " << current_test.description;
+                        output.started(description, current_test.description);
                         current_test.run_test();
-                        ::std::cout << " - passed." << ::std::endl;
+                        output.succeded(description, current_test.description);
                         return failures;
                     }
                     catch(assertion::failure failure)
                     {
-                        ::std::cout << " - failed." << ::std::endl;
-                        if (!failure.message.empty())
-                        {
-                            ::std::cout << "  " + failure.message << ::std::endl;
-                            ::std::cout << "   " + failure.description << ::std::endl;
-                            ::std::cout << "    expected: " + failure.expected << ::std::endl;
-                            ::std::cout << "    actual:   " + failure.actual   << ::std::endl;
-                        }
-                        else
-                        {
-                            ::std::cout << "  " + failure.description << ::std::endl;
-                            ::std::cout << "   expected: " + failure.expected << ::std::endl;
-                            ::std::cout << "   actual:   " + failure.actual   << ::std::endl;
-
-                        }
+                        output.failed(description, current_test.description, failure);
                         return failures + 1;
                     }
                     catch(...)
                     {
-                        ::std::cout << " - failed." << ::std::endl;
-                        ::std::cout << "  *unexpected exception*" << ::std::endl;
+                        output.failed(description, current_test.description);
                         return failures + 1;
                     }
                 });
@@ -107,13 +100,16 @@ namespace casmine
         tests.push_back(test_to_add);
         return tests;
     }
-
-    inline int module::run_all()
+    
+    template<typename TOutput>
+    inline int module::run_all(TOutput output)
     {
         auto& fixtures = module::instance().fixtures;
-        return ::std::accumulate(fixtures.begin(), fixtures.end(), 0, [] (int failures, fixture* current_fixture) -> int
+        return ::std::accumulate(fixtures.begin(), fixtures.end(), 0, [&] (int failures, fixture* current_fixture) -> int
             {
-                return failures + current_fixture->run();
+                return failures + current_fixture->run(output);
             });
     }
 }
+
+#endif // FIXTURES_H_INCLUDED

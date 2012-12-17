@@ -3,6 +3,7 @@
 
 #include "../source/assertions.h"
 #include "../source/fixtures.h"
+#include "../source/output.h"
 
 using namespace casmine;
 

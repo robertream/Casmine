@@ -2,6 +2,8 @@
 #define CONSTRAINTS_H_INCLUDED
 
 #include <string>
+#include <list>
+#include <exception>
 #include <typeinfo>
 
 #include "traits.h"

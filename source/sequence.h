@@ -1,7 +1,6 @@
 #ifndef SEQUENCE_H_INCLUDED
 #define SEQUENCE_H_INCLUDED
 
-#include <string>
 #include <list>
 
 namespace casmine

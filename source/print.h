@@ -2,8 +2,9 @@
 #define PRINT_H_INCLUDED
 
 #include <string>
-#include <list>
 #include <sstream>
+
+#include "traits.h"
 
 namespace casmine
 {

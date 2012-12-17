@@ -55,5 +55,8 @@
     <ClInclude Include="constraints.assertion.failure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\output.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
