@@ -22,8 +22,8 @@ namespace assert_that
             auto action = []
             {
                 "the message"
-                    - (assert::that(true) == true)
-                    - (assert::that(1) == 2);
+                    - (check(true) == true)
+                    - (check(1) == 2);
             };
             assert::throws(assertion::failure("", 0, "the message", "The values are not equal.", "2", "1"), action);
         })

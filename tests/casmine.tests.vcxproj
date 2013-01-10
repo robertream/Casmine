@@ -90,6 +90,7 @@
     <ClInclude Include="..\source\sequence.h" />
     <ClInclude Include="..\source\fixtures.h" />
     <ClInclude Include="..\source\traits.h" />
+    <ClInclude Include="..\source\typename.h" />
     <ClInclude Include="constraints.assertion.failure.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

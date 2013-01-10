@@ -27,8 +27,8 @@ namespace assert_throws
         test("an exception of a different type", []
         {
             auto throws = [] { throw ::std::string("different type"); };
-            auto action = [=]{ assert::throws<int>(throws); };
-            assert::throws(assertion::failure("An exception of an un-expected type was thrown.", "exception of type: int", "unknown exception"), action);
+            auto action = [=]{ assert::throws<double>(throws); };
+            assert::throws(assertion::failure("An exception of an un-expected type was thrown.", "exception of type: double", "unknown exception"), action);
         })
     );
 }

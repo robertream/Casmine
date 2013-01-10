@@ -3,11 +3,12 @@
 
 #include <string>
 #include <list>
+#include <algorithm>
 #include <exception>
-#include <typeinfo>
 
 #include "traits.h"
 #include "print.h"
+#include "typename.h"
 
 namespace casmine
 {
@@ -70,8 +71,10 @@ namespace casmine
     namespace constraints
     {
         template <typename TExpected, typename Enable = void>
-        struct equals_constraint : constraint::of<TExpected>
+        struct equals_constraint
         {
+            typedef typename constraint::of<TExpected>::result_value_type result_value_type;
+
             TExpected expected;
             equals_constraint(TExpected expected) : expected(expected) { }
             template<typename TActual>
@@ -84,8 +87,10 @@ namespace casmine
         };
 
         template <typename TExpected>
-        struct equals_constraint<TExpected, typename ::std::enable_if<traits::has_const_iterator<TExpected>::value>::type> : constraint::of<TExpected>
+        struct equals_constraint<TExpected, typename ::std::enable_if<traits::has_const_iterator<TExpected>::value>::type>
         {
+            typedef typename constraint::of<TExpected>::result_value_type result_value_type;
+
             TExpected expected;
             equals_constraint(TExpected expected) : expected(expected) { }
             template<typename TActual>
@@ -112,8 +117,10 @@ namespace casmine
         struct equivalent_constraint;
 
         template <typename TExpected>
-        struct equivalent_constraint<TExpected, typename ::std::enable_if<traits::has_const_iterator<TExpected>::value>::type> : constraint::of<TExpected>
+        struct equivalent_constraint<TExpected, typename ::std::enable_if<traits::has_const_iterator<TExpected>::value>::type>
         {
+            typedef typename constraint::of<TExpected>::result_value_type result_value_type;
+
             TExpected expected;
             equivalent_constraint(TExpected expected) : expected(expected) { }
             template<typename TActual>
@@ -136,12 +143,14 @@ namespace casmine
         };
 
         template <typename TExpected>
-        struct throws_constraint : constraint::of<TExpected>
+        struct throws_constraint
         {
+            typedef typename constraint::of<TExpected>::result_value_type result_value_type;
+
             template <typename TAction>
             constraint::result<TExpected> operator()(TAction action) const
             {
-                auto expected = "exception of type: " + ::std::string(typeid(TExpected).name());
+                auto expected = "exception of type: " + typename_of<TExpected>();
                 try
                 {
                     action();
@@ -152,7 +161,7 @@ namespace casmine
                 }
                 catch(::std::exception actual)
                 {
-                    return constraint::failed<TExpected>("An exception of an un-expected type was thrown.", expected, "exception of type: " + ::std::string(typeid(actual).name()) + " = " + actual.what());
+                    return constraint::failed<TExpected>("An exception of an un-expected type was thrown.", expected, "exception of type: " + typename_of(actual) + " = " + actual.what());
                 }
                 catch(...)
                 {
@@ -163,12 +172,14 @@ namespace casmine
         };
 
         template <typename TConstraintA, typename TConstraintB, typename Enabled = void>
-        struct bind_constraint;
+        struct and_bind_constraint;
 
         template <typename TConstraintA, typename TConstraintB>
-        struct bind_constraint<TConstraintA, TConstraintB, typename ::std::enable_if<traits::has_result_value<TConstraintB>::value>::type> : constraint::from<TConstraintB>
+        struct and_bind_constraint<TConstraintA, TConstraintB, typename ::std::enable_if<traits::has_result_value<TConstraintB>::value>::type>
         {
-            bind_constraint(TConstraintA A, TConstraintB B)
+            typedef typename constraint::from<TConstraintB>::result_value_type result_value_type;
+
+            and_bind_constraint(TConstraintA A, TConstraintB B)
                 : A(A), B(B) { }
 
             TConstraintA A;
@@ -179,14 +190,17 @@ namespace casmine
             {
                 auto result = A(actual);
                 return result.is_failure
-                        ? constraint::failed<result_value_type>(result)
+                        ? constraint::failed<result_value_type>(result.error)
                         : B(result.value);
             }
         };
+
+        template <typename TConstraintA, typename TConstraintB>
+        static and_bind_constraint<TConstraintA, TConstraintB> and_bind(TConstraintA A, TConstraintB B) { return and_bind_constraint<TConstraintA,TConstraintB>(A, B); }
     }
 
     template <typename TConstraintA, typename TConstraintB>
-    static constraints::bind_constraint<TConstraintA, TConstraintB> operator && (TConstraintA A, TConstraintB B) { return constraints::bind_constraint<TConstraintA,TConstraintB>(A, B); }
+    static constraints::and_bind_constraint<TConstraintA, TConstraintB> operator >>=(TConstraintA A, TConstraintB B) { return constraints::and_bind(A, B); }
 }
 
 #endif // CONSTRAINTS_H_INCLUDED

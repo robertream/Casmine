@@ -36,13 +36,7 @@ namespace casmine
         template <typename TActual, typename TConstraint>
         void that(TActual actual, TConstraint constraint)
         {
-            return assertion::comparison<TActual, TConstraint>("", 0, actual, constraint)("");
-        }
-
-        template <typename TActual>
-        assertion::actual<TActual> that(TActual actual)
-        {
-            return assertion::actual<TActual>("", 0, actual);
+            assertion::comparison<TActual, TConstraint>("", 0, actual, constraint)("");
         }
 
         template <typename TExpected, typename TActual>
@@ -66,7 +60,7 @@ namespace casmine
         template <typename TException, typename TAction>
         void throws(TException expected, TAction action)
         {
-            that(action, throws::type_of<TException>() && is::equal_to(expected));
+            that(action, throws::type_of<TException>() >>= is::equal_to(expected));
         }
     }
 
@@ -76,7 +70,7 @@ namespace casmine
         assertion(message);
         return message;
     }
-    
+
     template <typename TActual, typename TExpected>
     assertion::comparison<TActual, typename constraints::equals_constraint<TExpected>> operator == (assertion::actual<TActual> actual, TExpected expected)
     {
@@ -86,7 +80,7 @@ namespace casmine
     template <typename TActual>
     assertion::actual<TActual> check(TActual actual)
     {
-        return assert::that(actual);
+        return assertion::actual<TActual>("", 0, actual);
     }
 }
 

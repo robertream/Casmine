@@ -5,6 +5,7 @@
 #include <functional>
 #include <vector>
 #include <numeric>
+#include <iostream>
 
 #include "assertion.h"
 
@@ -14,11 +15,11 @@ namespace casmine
 
     struct module
     {
-        ::std::vector<fixture*> fixtures;
-        static void add(fixture* f) { instance().fixtures.push_back(f); }
-        
+        ::std::vector<const fixture*> fixtures;
+        static void add(const fixture* f) { instance().fixtures.push_back(f); }
+
         template<typename TOutput>
-        static int run(int argc, char *argv[], TOutput output = TOutput())
+        static int run(int argc, char *argv[], TOutput output)
         {
             int errors = instance().run_all(output);
             if (argc > 1)
@@ -29,9 +30,9 @@ namespace casmine
     private:
             module() { }
             static module& instance() { static module instance; return instance; }
-            
+
             template<typename TOutput>
-            int run_all(TOutput output);
+            int run_all(TOutput& output) const;
     };
 
     struct test
@@ -62,9 +63,9 @@ namespace casmine
         }
 
         template<typename TOutput>
-        int run(TOutput output)
+        int run(TOutput& output) const
         {
-            return ::std::accumulate(tests.begin(), tests.end(), 0, [&] (int failures, test current_test) -> int
+            return ::std::accumulate(tests.begin(), tests.end(), 0, [&] (int failures, const test& current_test) -> int
                 {
                     try
                     {
@@ -100,12 +101,12 @@ namespace casmine
         tests.push_back(test_to_add);
         return tests;
     }
-    
+
     template<typename TOutput>
-    inline int module::run_all(TOutput output)
+    inline int module::run_all(TOutput& output) const
     {
         auto& fixtures = module::instance().fixtures;
-        return ::std::accumulate(fixtures.begin(), fixtures.end(), 0, [&] (int failures, fixture* current_fixture) -> int
+        return ::std::accumulate(fixtures.begin(), fixtures.end(), 0, [&] (int failures, const fixture* current_fixture) -> int
             {
                 return failures + current_fixture->run(output);
             });

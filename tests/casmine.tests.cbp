@@ -41,10 +41,12 @@
 		<Unit filename="..\source\print.h" />
 		<Unit filename="..\source\sequence.h" />
 		<Unit filename="..\source\traits.h" />
+		<Unit filename="..\source\typename.h" />
 		<Unit filename="constraints.assertion.failure.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="test.assert.are_equal.cpp" />
 		<Unit filename="test.assert.are_equivalent.cpp" />
+		<Unit filename="test.assert.that.cpp" />
 		<Unit filename="test.assert.throws.cpp" />
 		<Extensions>
 			<code_completion />

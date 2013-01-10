@@ -8,5 +8,5 @@ fixture describe("simple fixture",
 
 int main(int argc, char *argv[])
 {
-    return module::run<output::console>(argc, argv);
+    return module::run(argc, argv, output::console());
 }
