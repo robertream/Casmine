@@ -15,6 +15,12 @@ namespace casmine
 
             constraint::result<assertion::failure> operator()(assertion::failure actual) const
             {
+                if (actual.file != expected.file)
+                    return constraint::failed<assertion::failure>("The file for the assertion::failure was different.", "\"" + expected.file + "\"", "\"" + actual.file + "\"");
+                if (actual.line != expected.line)
+                    return constraint::failed<assertion::failure>("The line for the assertion::failure was different.", to::string(expected.line), to::string(actual.line));
+                if (actual.description != expected.description)
+                    return constraint::failed<assertion::failure>("The description for the assertion::failure was different.", "\"" + expected.description + "\"", "\"" + actual.description + "\"");
                 if (actual.message != expected.message)
                     return constraint::failed<assertion::failure>("The message for the assertion::failure was different.", "\"" + expected.message + "\"", "\"" + actual.message + "\"");
                 if (actual.description != expected.description)

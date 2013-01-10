@@ -12,9 +12,9 @@ namespace assert_that
             auto action = []
             {
                 "the message"
-                    - (check(true) == false);
+                    - CHECK_THAT(true, is::equal_to(false));
             };
-            assert::throws(assertion::failure("", 0, "the message", "The values are not equal.", "false", "true"), action);
+            assert::throws(assertion::failure(__FILE__, 15, "the message", "The values are not equal.", "false", "true"), action);
         })
         +
         test("assertion message multiple assertions", []
@@ -22,10 +22,10 @@ namespace assert_that
             auto action = []
             {
                 "the message"
-                    - (check(true) == true)
-                    - (check(1) == 2);
+                    - (CHECK(true) == true)
+                    - (CHECK(1) == 2);
             };
-            assert::throws(assertion::failure("", 0, "the message", "The values are not equal.", "2", "1"), action);
+            assert::throws(assertion::failure(__FILE__, 26, "the message", "The values are not equal.", "2", "1"), action);
         })
     );
 }

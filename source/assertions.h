@@ -31,6 +31,15 @@ namespace casmine
         }
     }
 
+    namespace check
+    {
+        template <typename TActual>
+        assertion::actual<TActual> that(TActual actual, const char* file = "", int line = 0)
+        {
+            return assertion::actual<TActual>(file, line, actual);
+        }
+    }
+
     namespace assert
     {
         template <typename TActual, typename TConstraint>
@@ -74,14 +83,12 @@ namespace casmine
     template <typename TActual, typename TExpected>
     assertion::comparison<TActual, typename constraints::equals_constraint<TExpected>> operator == (assertion::actual<TActual> actual, TExpected expected)
     {
+
         return actual(is::equal_to(expected));
     }
-
-    template <typename TActual>
-    assertion::actual<TActual> check(TActual actual)
-    {
-        return assertion::actual<TActual>("", 0, actual);
-    }
+    
+    #define CHECK_THAT(_actual, _constraint) check::that(_actual, __FILE__, __LINE__)(_constraint)
+    #define CHECK(_actual) check::that(_actual, __FILE__, __LINE__)
 }
 
 #endif // ASSERTIONS_H_INCLUDED

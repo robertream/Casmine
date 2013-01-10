@@ -10,11 +10,11 @@ namespace casmine
     {
         struct failure : ::std::exception
         {
-            failure() { }
+            failure() : line(0) { }
 
             failure(::std::string description, ::std::string expected, ::std::string actual)
-                : message(""), description(description), expected(expected), actual(actual) { }
-                        
+                : file(""), line(0), message(""), description(description), expected(expected), actual(actual) { }
+
             failure(::std::string file, int line, ::std::string message, ::std::string description, ::std::string expected, ::std::string actual)
                 : file(file), line(line), message(message), description(description), expected(expected), actual(actual) { }
 
@@ -33,7 +33,7 @@ namespace casmine
                 : actual(actual), constraint(constraint) { }
             comparison(::std::string file, int line, TActual actual, TConstraint constraint)
                 : file(file), line(line), actual(actual), constraint(constraint) { }
-            
+
             ::std::string file;
             int line;
             TActual actual;
@@ -52,7 +52,7 @@ namespace casmine
         {
             actual(::std::string file, int line, TActual value)
                 : file(file), line(line), value(value) { }
-            
+
             ::std::string file;
             int line;
             TActual value;
