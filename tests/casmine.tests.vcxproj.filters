@@ -61,5 +61,8 @@
     <ClInclude Include="..\source\typename.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\check.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

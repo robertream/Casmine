@@ -36,6 +36,7 @@
 		<Unit filename="..\source\assertion.h" />
 		<Unit filename="..\source\assertions.h" />
 		<Unit filename="..\source\casmine.h" />
+		<Unit filename="..\source\check.h" />
 		<Unit filename="..\source\constraints.h" />
 		<Unit filename="..\source\fixtures.h" />
 		<Unit filename="..\source\print.h" />
