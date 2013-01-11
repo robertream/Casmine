@@ -1,12 +1,11 @@
 #include "../source/casmine.h"
-#include "../source/sequence.h"
 #include "constraints.assertion.failure.h"
 
 using namespace std;
 
 namespace assert_that
 {
-    fixture describe("assert::that tests",
+    fixture describe("check::that tests",
         test("assertion message", []
         {
             auto action = []
@@ -14,7 +13,7 @@ namespace assert_that
                 "the message"
                     - CHECK_THAT(true, is::equal_to(false));
             };
-            assert::throws(assertion::failure(__FILE__, 15, "the message", "The values are not equal.", "false", "true"), action);
+            assert::throws(assertion::failure(__FILE__, 14, "the message", "The values are not equal.", "false", "true"), action);
         })
         +
         test("assertion message multiple assertions", []
@@ -25,7 +24,7 @@ namespace assert_that
                     - (CHECK(true) == true)
                     - (CHECK(1) == 2);
             };
-            assert::throws(assertion::failure(__FILE__, 26, "the message", "The values are not equal.", "2", "1"), action);
+            assert::throws(assertion::failure(__FILE__, 25, "the message", "The values are not equal.", "2", "1"), action);
         })
     );
 }

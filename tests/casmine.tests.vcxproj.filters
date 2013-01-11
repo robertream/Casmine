@@ -23,7 +23,7 @@
     <ClCompile Include="test.assert.are_equivalent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test.assert.that.cpp">
+    <ClCompile Include="test.check.that.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

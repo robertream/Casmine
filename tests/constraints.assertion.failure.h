@@ -8,8 +8,9 @@ namespace casmine
     namespace constraints
     {
         template <>
-        struct equals_constraint<assertion::failure> : constraint::of<assertion::failure>
+        struct equals_constraint<assertion::failure>
         {
+            typedef assertion::failure result_value_type;
             assertion::failure expected;
             equals_constraint(assertion::failure expected) : expected(expected) { }
 

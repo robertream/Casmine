@@ -37,12 +37,6 @@ namespace casmine
         result.push_back(value3);
         return result;
     }
-
-    //template <typename T, typename ...TNext>
-    //::std::list<T> sequence(T value, TNext... next)
-    //{
-    //    return ::std::list<T>({ value, next... });
-    //}
 }
 
 #endif // SEQUENCE_H_INCLUDED

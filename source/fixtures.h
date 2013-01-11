@@ -74,9 +74,14 @@ namespace casmine
                         output.succeded(description, current_test.description);
                         return failures;
                     }
-                    catch(assertion::failure failure)
+                    catch(const assertion::failure& failure)
                     {
                         output.failed(description, current_test.description, failure);
+                        return failures + 1;
+                    }
+                    catch(const ::std::exception& exception)
+                    {
+                        output.failed(description, current_test.description, exception);
                         return failures + 1;
                     }
                     catch(...)

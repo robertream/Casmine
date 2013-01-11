@@ -15,7 +15,7 @@ namespace casmine
             ::std::string current_fixture;
             ::std::string current_test;
 
-            void started(::std::string fixture, ::std::string test)
+            void started(const ::std::string& fixture, const ::std::string& test)
             {
                 if (current_fixture != fixture)
                     ::std::cout << "* " << fixture << ::std::endl;
@@ -24,34 +24,49 @@ namespace casmine
                 current_test = test;
             }
 
-            void failed(::std::string fixture, ::std::string test, assertion::failure failure)
+            void failed(const ::std::string& fixture, const ::std::string& test, const assertion::failure& failure)
             {
                 ::std::cout << " - failed." << ::std::endl;
                 if (!failure.message.empty())
                 {
-                    ::std::cout << "  " + failure.message << ::std::endl;
+                    if (!failure.file.empty())
+                        ::std::cout << failure.file << "(" << failure.line << "): " << failure.message << ::std::endl;
+                    else
+                        ::std::cout << "  " + failure.message << ::std::endl;
                     ::std::cout << "   " + failure.description << ::std::endl;
-                    ::std::cout << "    expected: " + failure.expected << ::std::endl;
-                    ::std::cout << "    actual:   " + failure.actual   << ::std::endl;
+                    ::std::cout << "    expected: " << failure.expected << ::std::endl;
+                    ::std::cout << "    actual:   " << failure.actual   << ::std::endl;
                 }
                 else
                 {
-                    ::std::cout << "  " + failure.description << ::std::endl;
-                    ::std::cout << "   expected: " + failure.expected << ::std::endl;
-                    ::std::cout << "   actual:   " + failure.actual   << ::std::endl;
-
+                    if (!failure.file.empty())
+                        ::std::cout << failure.file << "(" << failure.line << "): " << failure.description << ::std::endl;
+                    else
+                        ::std::cout << "  " + failure.description << ::std::endl;
+                    ::std::cout << "   expected: " << failure.expected << ::std::endl;
+                    ::std::cout << "   actual:   " << failure.actual   << ::std::endl;
                 }
             }
 
-            //void failed(::std::string fixture, ::std::string test, ::std::exception error) { }
-
-            void failed(::std::string fixture, ::std::string test)
+            void failed(const ::std::string& fixture, const ::std::string& test, const ::std::exception& error)
             {
                 ::std::cout << " - failed." << ::std::endl;
-                ::std::cout << "  *unexpected exception*" << ::std::endl;
+                ::std::cout << "  unexpected exception: " << typename_of(error) << ::std::endl;
+                if (error.what() != nullptr)
+                {
+                    ::std::string what(error.what());
+                    if (!what.empty())
+                        ::std::cout << "   " << what << ::std::endl;
+                }
             }
 
-            void succeded(::std::string fixture, ::std::string test)
+            void failed(const ::std::string& fixture, const ::std::string& test)
+            {
+                ::std::cout << " - failed." << ::std::endl;
+                ::std::cout << "  unexpected exception" << ::std::endl;
+            }
+
+            void succeded(const ::std::string& fixture, const ::std::string& test)
             {
                 ::std::cout << " - passed." << ::std::endl;
             }

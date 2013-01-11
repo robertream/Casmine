@@ -18,6 +18,8 @@ namespace casmine
             failure(::std::string file, int line, ::std::string message, ::std::string description, ::std::string expected, ::std::string actual)
                 : file(file), line(line), message(message), description(description), expected(expected), actual(actual) { }
 
+            ~failure() throw() { }
+
             ::std::string file;
             int line;
             ::std::string message;
