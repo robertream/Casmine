@@ -39,6 +39,7 @@
 		<Unit filename="..\source\check.h" />
 		<Unit filename="..\source\constraints.h" />
 		<Unit filename="..\source\fixtures.h" />
+		<Unit filename="..\source\output.h" />
 		<Unit filename="..\source\print.h" />
 		<Unit filename="..\source\sequence.h" />
 		<Unit filename="..\source\traits.h" />
@@ -47,8 +48,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="test.assert.are_equal.cpp" />
 		<Unit filename="test.assert.are_equivalent.cpp" />
-		<Unit filename="test.assert.that.cpp" />
 		<Unit filename="test.assert.throws.cpp" />
+		<Unit filename="test.check.that.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
