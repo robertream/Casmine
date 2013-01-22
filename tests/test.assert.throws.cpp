@@ -1,12 +1,5 @@
-#include <functional>
-#include <iostream>
-#include <vector>
-
+#include "../source/casmine.h"
 #include "constraints.assertion.failure.h"
-#include "../source/assertions.h"
-#include "../source/fixtures.h"
-
-using namespace casmine;
 
 namespace assert_throws
 {

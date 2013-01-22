@@ -1,8 +1,6 @@
 #include "../source/casmine.h"
 #include "constraints.assertion.failure.h"
 
-using namespace std;
-
 namespace assert_that
 {
     fixture describe("check::that tests",
