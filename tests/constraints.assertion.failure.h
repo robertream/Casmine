@@ -10,7 +10,6 @@ namespace casmine
         template <>
         struct equals_constraint<assertion::failure>
         {
-            typedef assertion::failure result_type;
             assertion::failure expected;
             equals_constraint(assertion::failure expected) : expected(expected) { }
 

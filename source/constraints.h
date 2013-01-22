@@ -61,8 +61,6 @@ namespace casmine
         template <typename TExpected, typename Enable = void>
         struct equals_constraint
         {
-            typedef typename traits::type_of<TExpected>::type result_type;
-
             TExpected expected;
             equals_constraint(TExpected expected) : expected(expected) { }
             template<typename TActual>
@@ -77,8 +75,6 @@ namespace casmine
         template <typename TExpected>
         struct equals_constraint<TExpected, typename ::std::enable_if<traits::has_const_iterator<TExpected>::value>::type>
         {
-            typedef typename traits::type_of<TExpected>::type result_type;
-
             TExpected expected;
             equals_constraint(TExpected expected) : expected(expected) { }
             template<typename TActual>
@@ -107,8 +103,6 @@ namespace casmine
         template <typename TExpected>
         struct equivalent_constraint<TExpected, typename ::std::enable_if<traits::has_const_iterator<TExpected>::value>::type>
         {
-            typedef typename traits::type_of<TExpected>::type result_type;
-
             TExpected expected;
             equivalent_constraint(TExpected expected) : expected(expected) { }
             template<typename TActual>
@@ -133,8 +127,6 @@ namespace casmine
         template <typename TExpected>
         struct throws_constraint
         {
-            typedef typename traits::type_of<TExpected>::type result_type;
-
             template <typename TAction>
             constraint::result<TExpected> operator()(TAction action) const
             {
@@ -159,14 +151,9 @@ namespace casmine
             }
         };
 
-        template <typename TConstraintA, typename TConstraintB, typename Enabled = void>
-        struct and_bind_constraint;
-
         template <typename TConstraintA, typename TConstraintB>
-        struct and_bind_constraint<TConstraintA, TConstraintB, typename ::std::enable_if<traits::has_result_value<TConstraintB>::value>::type>
+        struct and_bind_constraint
         {
-            typedef typename traits::result_of<TConstraintB>::type result_type;
-
             and_bind_constraint(TConstraintA A, TConstraintB B)
                 : A(A), B(B) { }
 
@@ -174,11 +161,12 @@ namespace casmine
             TConstraintB B;
 
             template<typename TActual>
-            constraint::result<result_type> operator()(TActual actual) const
+            auto operator()(TActual actual) const -> decltype(B(A(actual).value))
             {
                 auto result = A(actual);
+                typedef decltype(B(result.value).value) result_value_type;
                 return result.is_failure
-                        ? constraint::failed<result_type>(result.error)
+                        ? constraint::failed<result_value_type>(result.error)
                         : B(result.value);
             }
         };
