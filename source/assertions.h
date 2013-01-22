@@ -9,24 +9,24 @@ namespace casmine
     namespace is
     {
         template <typename TExpected>
-        constraints::equals_constraint<TExpected> equal_to(TExpected expected)
+        auto equal_to(TExpected expected) -> decltype(constraints::equals(expected))
         {
-            return constraints::equals_constraint<TExpected>(expected);
+            return constraints::equals(expected);
         }
 
         template <typename TExpected>
-        constraints::equivalent_constraint<TExpected> equivalent_to(TExpected expected)
+        auto equivalent_to(TExpected expected) -> decltype(constraints::equivalent(expected))
         {
-            return constraints::equivalent_constraint<TExpected>(expected);
+            return constraints::equivalent(expected);
         }
     }
 
     namespace throws
     {
         template <typename TExpected>
-        constraints::throws_constraint<TExpected> type_of()
+        auto type_of() -> decltype(constraints::throws<TExpected>())
         {
-            return constraints::throws_constraint<TExpected>();
+            return constraints::throws<TExpected>();
         }
     }
 
@@ -59,7 +59,7 @@ namespace casmine
         template <typename TException, typename TAction>
         void throws(TException expected, TAction action)
         {
-            that(action, throws::type_of<TException>() >>= is::equal_to(expected));
+            that(action, throws::type_of<TException>() && is::equal_to(expected));
         }
     }
 }

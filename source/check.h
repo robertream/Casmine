@@ -23,7 +23,7 @@ namespace casmine
     }
 
     template <typename TActual, typename TExpected>
-    assertion::comparison<TActual, typename constraints::equals_constraint<TExpected>> operator == (assertion::actual<TActual> actual, TExpected expected)
+    auto operator == (assertion::actual<TActual> actual, TExpected expected) -> decltype(actual(is::equal_to(expected)))
     {
         return actual(is::equal_to(expected));
     }
